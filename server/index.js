@@ -72,19 +72,28 @@ app.get('/api/card/generate', async (req, res) => {
   }
 });
 
+const NAMEFAKE_NAME_RE = /<a id="bc-name"[^>]*title="([^"]+)"/;
+const NAMEFAKE_USERNAME_RE = /<div class="nk_line_k">Username<\/div><div class="nk_line_v[^"]*"[^>]*>([^<]*)<\/div>/;
+
 app.get('/api/namefake/{*rest}', async (req, res) => {
   try {
-    const restParam = req.params.rest;
-    const targetPath = Array.isArray(restParam) ? restParam.join('/') : (restParam || '');
-    const targetUrl = `https://api.namefake.com/${targetPath.replace(/^\//, '')}`;
-    const response = await fetch(targetUrl);
+    // api.namefake.com JSON API is dead (404 upstream); scrape the HTML site instead
+    const response = await fetch('https://namefake.com/en_US', {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+        'Accept-Language': 'en-US,en;q=0.5',
+      },
+    });
     if (!response.ok) {
-      return res.status(response.status).send(await response.text());
+      return res.status(502).json({ error: 'namefake upstream error', status: response.status });
     }
-    const contentType = response.headers.get('content-type');
-    if (contentType) res.setHeader('Content-Type', contentType);
-    const body = await response.text();
-    res.send(body);
+    const html = await response.text();
+    const name = html.match(NAMEFAKE_NAME_RE)?.[1] || '';
+    const username = html.match(NAMEFAKE_USERNAME_RE)?.[1] || '';
+    if (!name) {
+      return res.status(502).json({ error: 'namefake parse error' });
+    }
+    res.json({ name, username });
   } catch (error) {
     res.status(500).json({ error: 'Proxy error', details: error.message });
   }

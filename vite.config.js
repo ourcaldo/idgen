@@ -7,9 +7,8 @@ export default defineConfig({
     allowedHosts: true,
     proxy: {
       '/api/namefake': {
-        target: 'https://api.namefake.com',
+        target: 'http://localhost:3001',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/namefake/, ''),
       },
       '/api/unsplash': {
         target: 'https://api.unsplash.com',

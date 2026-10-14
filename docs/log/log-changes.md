@@ -1,6 +1,17 @@
 # Change Log
 
 ## 2026-10-14
+- Short description: Fix "Failed to get random name" — old api.namefake.com JSON API is dead (404 upstream).
+- What you do:
+  - Rewrote `/api/namefake` server handler: scrape `https://namefake.com/en_US` HTML, extract name (breadcrumb title) + username (nk_line value), return as JSON.
+  - Vite dev proxy for `/api/namefake` now routes to local express server instead of the dead API host.
+  - Verified locally: 5/5 requests 200, all names pass frontend `isNormalStudentName` filter.
+- File path that changes:
+  - server/index.js
+  - vite.config.js
+  - docs/log/log-changes.md
+
+## 2026-10-14
 - Short description: Switch random photo source from Freepik API to Unsplash API.
 - What you do:
   - Replaced `/api/freepik` server proxy with `/api/unsplash` (Authorization: Client-ID from `UNSPLASH_ACCESS_KEY` env var, per https://unsplash.com/documentation#search-photos).
