@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Generator Kartu Tanda Pelajar SMKN 1 NGAWI">
+  <title>ID Card Generator - SMKN 1 NGAWI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- ===== SIDEBAR FORM ===== -->
+    <aside class="form-panel" id="form-panel">
+      <div class="form-header">
+        <h1>🎓 ID Card Generator</h1>
+        <p class="form-subtitle" id="form-card-subtitle">SMKN 1 NGAWI — Kartu Tanda Pelajar</p>
+      </div>
+
+      <form id="id-form" autocomplete="off">
+        <div class="form-section">
+          <h2>🪪 Jenis Kartu</h2>
+          <div class="form-group">
+            <label for="input-card-type">Pilih Output Kartu</label>
+            <select id="input-card-type">
+              <option value="student" selected>Pelajar</option>
+              <option value="teacher">Dosen</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="input-school">Institusi</label>
+            <select id="input-school">
+              <option value="smkn1ngawi" selected>SMKN 1 Ngawi</option>
+              <option value="ubsi">Universitas Bina Sarana Informatika</option>
+              <option value="iainkediri">Institut Agama Islam Negeri Kediri</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2 id="form-data-title">📋 Data Siswa</h2>
+          <div class="form-group">
+            <label for="input-name">Nama Lengkap</label>
+            <input type="text" id="input-name" value="" placeholder="Nama lengkap siswa">
+          </div>
+          <div class="form-group">
+            <label for="input-nisn" id="label-nis-form">NISN</label>
+            <input type="text" id="input-nisn" value="" placeholder="Nomor Induk Siswa Nasional">
+          </div>
+          <div class="form-row">
+            <div class="form-group" id="form-group-kelas">
+              <label for="input-kelas">Kelas</label>
+              <input type="text" id="input-kelas" value="" placeholder="Kelas">
+            </div>
+            <div class="form-group" id="form-group-tahun">
+              <label for="input-tahun" id="label-tahun-form">Tahun Masuk</label>
+              <input type="text" id="input-tahun" value="" placeholder="Tahun">
+            </div>
+          </div>
+          <div class="form-group" id="form-group-jurusan">
+            <label for="input-jurusan" id="label-jurusan-form">Jurusan</label>
+            <input type="text" id="input-jurusan" value="" placeholder="Jurusan / Program Keahlian">
+          </div>
+          <div class="form-group is-hidden" id="form-group-jabatan">
+            <label for="input-jabatan" id="label-jabatan-form">Jabatan</label>
+            <input type="text" id="input-jabatan" value="Dosen" placeholder="Jabatan dosen">
+          </div>
+          <div class="form-group is-hidden" id="form-group-teacher-id">
+            <label for="input-teacher-id" id="label-teacher-id-form">Nomor ID Dosen</label>
+            <input type="text" id="input-teacher-id" value="" placeholder="Contoh: Dosen-0012">
+          </div>
+          <div class="form-group is-hidden" id="form-group-proof-doc">
+            <label for="input-proof-doc" id="label-proof-doc-form">Nomor SK / Kontrak</label>
+            <input type="text" id="input-proof-doc" value="" placeholder="Contoh: SK-2026/SMKN1NGAWI">
+          </div>
+          <div class="form-group" id="form-group-ttl">
+            <label for="input-ttl" id="label-ttl-form">Tempat / Tgl Lahir</label>
+            <input type="text" id="input-ttl" value="" placeholder="Kota, DD Bulan YYYY">
+          </div>
+          <div class="form-group">
+            <label for="input-status" id="label-status-form">Status</label>
+            <select id="input-status">
+              <option value="Aktif" selected>Aktif</option>
+              <option value="Tidak Aktif">Tidak Aktif</option>
+              <option value="Alumni">Alumni</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2 id="form-photo-title">📷 Foto Siswa</h2>
+          <div class="form-group">
+            <label for="input-photo" id="label-photo-form">Upload Foto</label>
+            <div class="photo-upload-area" id="photo-upload-area">
+              <input type="file" id="input-photo" accept="image/*" hidden>
+              <div class="upload-placeholder" id="upload-placeholder">
+                <span class="upload-icon">📸</span>
+                <span>Klik untuk upload foto</span>
+              </div>
+              <img id="photo-preview-thumb" class="photo-preview-thumb" alt="Preview">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2 id="form-validity-title">📅 Masa Berlaku</h2>
+          <div class="form-group">
+            <label for="input-valid" id="label-valid-form">Berlaku Hingga</label>
+            <input type="text" id="input-valid" value="31 DESEMBER 2028" placeholder="DD BULAN YYYY">
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="btn-print" class="btn btn-primary">🖨️ Cetak Kartu</button>
+          <button type="button" id="btn-random-data" class="btn btn-primary">🎲 Random Siswa</button>
+          <button type="button" id="btn-reset" class="btn btn-secondary">🔄 Reset</button>
+        </div>
+      </form>
+    </aside>
+
+    <!-- ===== CARD PREVIEW ===== -->
+    <main class="preview-panel">
+      <h2 class="preview-title">Preview Kartu</h2>
+      <div class="card-wrapper">
+        <div class="id-card" id="id-card">
+
+          <!-- HEADER -->
+          <div class="card-header">
+            <img src="/school-logo.png" alt="Logo Institusi" class="header-logo" id="card-header-logo">
+            <div class="header-text">
+              <h2 class="school-name" id="card-school-name">SMKN 1 NGAWI</h2>
+              <p class="school-subtitle" id="card-type-title">KARTU TANDA PELAJAR</p>
+              <p class="school-address" id="card-school-address">Jl. Pendidikan No. 1, Jawa Timur</p>
+            </div>
+          </div>
+
+          <!-- BODY -->
+          <div class="card-body">
+            <!-- Photo -->
+            <div class="photo-section">
+              <div class="photo-frame" id="photo-frame">
+                <img id="card-photo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='260' viewBox='0 0 200 260'%3E%3Crect fill='%23ddd' width='200' height='260'/%3E%3Ctext x='100' y='130' text-anchor='middle' fill='%23999' font-size='14'%3EFoto%3C/text%3E%3C/svg%3E" alt="Foto Siswa" class="student-photo">
+              </div>
+              <canvas id="bar-canvas" class="bar-code"></canvas>
+            </div>
+
+            <!-- Info -->
+            <div class="info-section">
+              <div id="student-name-block">
+                <h3 class="student-name" id="card-name">—</h3>
+                <div class="name-divider"></div>
+              </div>
+
+              <div class="info-grid">
+                <div class="info-row is-hidden" id="card-row-name-teacher">
+                  <span class="info-label">NAMA</span>
+                  <span class="info-colon">:</span>
+                  <span class="info-value" id="card-name-teacher-display">—</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label" id="card-label-nis">NISN</span>
+                  <span class="info-colon">:</span>
+                  <span class="info-value" id="card-nisn">—</span>
+                </div>
+                <div class="info-row" id="card-row-kelas">
+                  <span class="info-label" id="card-label-kelas">KELAS</span>
+                  <span class="info-colon">:</span>
+                  <span class="info-value" id="card-kelas">—</span>
+                </div>
+                <div class="info-row" id="card-row-jurusan">
+                  <span class="info-label" id="card-label-jurusan">JURUSAN</span>
+                  <span class="info-colon">:</span>
+                  <span class="info-value" id="card-jurusan">—</span>
+                </div>
+                <div class="info-row is-hidden" id="card-row-jabatan">
+                  <span class="info-label" id="card-label-jabatan">JABATAN</span>
+                  <span class="info-colon">:</span>
+                  <span class="info-value" id="card-jabatan">TEACHER</span>
+                </div>
+                <div class="info-row is-hidden" id="card-row-teacher-id">
+                  <span class="info-label" id="card-label-teacher-id">ID PENDIDIK</span>
+                  <span class="info-colon">:</span>
+                  <span class="info-value" id="card-teacher-id">—</span>
+                </div>
+                <div class="info-row is-hidden" id="card-row-proof-doc">
+                  <span class="info-label" id="card-label-proof-doc">SK/KONTRAK</span>
+                  <span class="info-colon">:</span>
+                  <span class="info-value" id="card-proof-doc">—</span>
+                </div>
+                <div class="info-row" id="card-row-ttl">
+                  <span class="info-label" id="card-label-ttl">TEMPAT, TANGGAL LAHIR</span>
+                  <span class="info-colon">:</span>
+                  <span class="info-value" id="card-ttl">—</span>
+                </div>
+                <div class="info-row is-hidden" id="card-row-status-details">
+                  <span class="info-label" id="card-label-status-details">DITERBITKAN / STATUS</span>
+                  <span class="info-colon">:</span>
+                  <span class="info-value" id="card-status-details">Aktif</span>
+                </div>
+                <div class="info-row" id="card-row-tahun-status">
+                  <span class="info-label">TAHUN MASUK / STATUS</span>
+                  <span class="info-colon">:</span>
+                  <span class="info-value" id="card-tahun-status-value">— / —</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <canvas id="qr-canvas" class="qr-code is-hidden" width="64" height="64"></canvas>
+
+          <!-- VALIDITY BAR -->
+          <div class="card-validity">
+            <div class="validity-line"></div>
+            <p class="validity-text">BERLAKU HINGGA: <span id="card-valid">31 DESEMBER 2028</span></p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

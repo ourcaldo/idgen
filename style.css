@@ -1,0 +1,572 @@
+/* ========================================
+   ID Card Generator — SMKN 1 NGAWI
+   ======================================== */
+
+/* --- Reset & Base --- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --blue-primary: #4a7fc4;
+  --blue-header: #5b8ed4;
+  --blue-dark: #1a3a6b;
+  --blue-border: #2c4e7a;
+  --gold: #c9a84c;
+  --gold-dark: #9e7e2e;
+  --green-badge: #2d6a3f;
+  --white: #ffffff;
+  --off-white: #f8f7f2;
+  --cream: #fdfcf5;
+  --text-dark: #1a1a1a;
+  --text-muted: #555;
+  --card-border: #3b6da8;
+  --shadow: 0 8px 32px rgba(0,0,0,0.12);
+  --radius: 12px;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 40%, #0f172a 100%);
+  min-height: 100vh;
+  color: var(--text-dark);
+}
+
+/* --- App Layout --- */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* --- Form Panel --- */
+.form-panel {
+  width: 420px;
+  min-width: 380px;
+  background: linear-gradient(180deg, #111827 0%, #1f2937 100%);
+  color: #e5e7eb;
+  padding: 32px 28px;
+  overflow-y: auto;
+  border-right: 1px solid rgba(255,255,255,0.06);
+}
+
+.form-header {
+  margin-bottom: 28px;
+}
+
+.form-header h1 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #60a5fa, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 4px;
+}
+
+.form-subtitle {
+  font-size: 0.82rem;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.form-section {
+  margin-bottom: 24px;
+}
+
+.form-section h2 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #93c5fd;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(147,197,253,0.15);
+}
+
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #9ca3af;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: #f3f4f6;
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #60a5fa;
+  background: rgba(255,255,255,0.09);
+  box-shadow: 0 0 0 3px rgba(96,165,250,0.15);
+}
+
+.form-group select {
+  cursor: pointer;
+}
+
+.form-group select option {
+  background: #1f2937;
+  color: #f3f4f6;
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.is-hidden {
+  display: none !important;
+}
+
+/* Photo Upload */
+.photo-upload-area {
+  width: 100%;
+  height: 140px;
+  background: rgba(255,255,255,0.04);
+  border: 2px dashed rgba(255,255,255,0.12);
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.photo-upload-area:hover {
+  border-color: #60a5fa;
+  background: rgba(96,165,250,0.06);
+}
+
+.upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: #6b7280;
+  font-size: 0.82rem;
+}
+
+.upload-icon {
+  font-size: 1.8rem;
+}
+
+.photo-preview-thumb {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+  border-radius: 8px;
+}
+
+.photo-preview-thumb.visible {
+  display: block;
+}
+
+/* Buttons */
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.btn {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  color: white;
+  box-shadow: 0 4px 14px rgba(59,130,246,0.35);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(59,130,246,0.45);
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.08);
+  color: #d1d5db;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+/* --- Preview Panel --- */
+.preview-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  position: relative;
+}
+
+.preview-title {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 24px;
+}
+
+.card-wrapper {
+  filter: drop-shadow(0 20px 50px rgba(0,0,0,0.4));
+}
+
+/* ====================================
+   ID CARD DESIGN
+   ==================================== */
+.id-card {
+  width: 700px;
+  background-color: var(--cream);
+  background-image: radial-gradient(rgba(59, 109, 168, 0.15) 1.5px, transparent 1.5px);
+  background-size: 12px 12px;
+  border: 3px solid var(--card-border);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  font-family: 'Inter', sans-serif;
+}
+
+/* --- Card Header --- */
+.card-header {
+  background: linear-gradient(135deg, #2a5298 0%, #3e6ebd 50%, #2a5298 100%);
+  padding: 16px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-logo {
+  width: 64px;
+  height: 72px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.header-text {
+  flex: 1;
+}
+
+.school-name {
+  font-size: clamp(1rem, 2.8vw, 1.8rem);
+  font-weight: 900;
+  color: var(--white);
+  letter-spacing: 0.03em;
+  text-shadow: 1px 2px 3px rgba(0,0,0,0.25);
+  line-height: 1.2;
+}
+
+.school-subtitle {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fbbf24;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.school-address {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.85);
+  margin-top: 1px;
+}
+
+/* --- Card Body --- */
+.card-body {
+  display: flex;
+  padding: 14px 20px 8px;
+  gap: 18px;
+}
+
+/* Photo */
+.photo-section {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.photo-frame {
+  width: 185px;
+  height: 195px;
+  border: 3px solid var(--blue-border);
+  overflow: hidden;
+  background: #ddd;
+  position: relative;
+  line-height: 0;
+}
+
+.student-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transform: translateZ(0);
+}
+
+/* Info */
+.info-section {
+  flex: 1;
+  padding-top: 4px;
+}
+
+.student-name {
+  font-size: 1.55rem;
+  font-weight: 900;
+  color: var(--text-dark);
+  letter-spacing: 0.02em;
+}
+
+.name-divider {
+  height: 3px;
+  background: var(--text-dark);
+  margin: 6px 0 10px;
+}
+
+.info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 0;
+}
+
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  line-height: 1.35;
+}
+
+.info-label {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--blue-dark);
+  min-width: 210px;
+  flex-shrink: 0;
+}
+
+.info-label-ttl {
+  font-size: 0.88rem;
+  min-width: 170px;
+  text-decoration: none;
+}
+
+.info-colon {
+  font-weight: 700;
+  margin-right: 4px;
+  color: var(--text-dark);
+}
+
+.info-value {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.35;
+}
+
+.info-row-ttl {
+  margin-bottom: 10px;
+}
+
+
+/* Badges */
+.badge-row {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.badge-tahun {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 20px;
+  border: 2px solid #999;
+  background: rgba(200,200,200,0.15);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.badge-tahun strong {
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.badge-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 24px;
+  background: var(--green-badge);
+  color: white;
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.verify-note {
+  margin-top: 10px;
+  padding: 8px 10px;
+  border: 1px dashed rgba(26, 58, 107, 0.45);
+  background: rgba(74, 127, 196, 0.08);
+  font-size: 0.7rem;
+  line-height: 1.35;
+  color: #1d355b;
+  font-weight: 600;
+}
+
+/* --- Card Footer --- */
+
+
+.qr-code {
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
+}
+
+.bar-code {
+  display: block;
+  width: 191px;
+  height: 40px;
+  image-rendering: auto;
+}
+
+/* --- Validity Bar --- */
+.card-validity {
+  padding: 0 20px 8px;
+}
+
+.validity-line {
+  height: 2px;
+  background: var(--gold);
+  margin-bottom: 4px;
+}
+
+.validity-text {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--gold-dark);
+  letter-spacing: 0.06em;
+}
+
+/* ====================================
+   PRINT STYLES
+   ==================================== */
+@media print {
+  body {
+    background: white;
+    margin: 0;
+    padding: 0;
+  }
+
+  .form-panel,
+  .preview-title {
+    display: none !important;
+  }
+
+  .preview-panel {
+    padding: 0;
+    justify-content: flex-start;
+  }
+
+  .card-wrapper {
+    filter: none;
+  }
+
+  .id-card {
+    border-radius: 0;
+    width: 85.6mm;
+    /* Scaled for standard ID card size */
+  }
+}
+
+/* ====================================
+   RESPONSIVE
+   ==================================== */
+@media (max-width: 1100px) {
+  .app-container {
+    flex-direction: column;
+  }
+
+  .form-panel {
+    width: 100%;
+    min-width: auto;
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .preview-panel {
+    padding: 30px 16px;
+  }
+
+  .id-card {
+    width: 100%;
+    max-width: 700px;
+  }
+}
+
+@media (max-width: 500px) {
+  .form-panel {
+    padding: 20px 16px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
